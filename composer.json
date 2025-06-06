@@ -58,7 +58,8 @@
             "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
-        "stan": "@php vendor/bin/phpstan analyse --memory-limit=3g --ansi"
+        "stan": "@php vendor/bin/phpstan analyse --memory-limit=3g",
+        "pint": "@php vendor/bin/pint"
     },
     "extra": {
         "laravel": {
