@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Http\Payloads\CreateUserPayload;
 use App\Models\User;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
 final class RegisterRequest extends FormRequest
 {
-    /** @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string> */
+    /** @return array<string, ValidationRule|array<mixed>|string> */
     public function rules(): array
     {
         return [
@@ -18,6 +20,15 @@ final class RegisterRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
+    }
+
+    public function payload(): CreateUserPayload
+    {
+        return new CreateUserPayload(
+            $this->string('name')->toString(),
+            $this->string('email')->toString(),
+            $this->string('password')->toString(),
+        );
     }
 
     protected function prepareForValidation(): void
