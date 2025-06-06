@@ -1,0 +1,57 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-dangerous-calls.neon
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-execution-calls.neon
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-insecure-calls.neon
+    - vendor/spaze/phpstan-disallowed-calls/disallowed-loose-calls.neon
+    - vendor/spaze/phpstan-disallowed-calls/extension.neon
+
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+    paths:
+        - app/
+        - routes/
+        - config/
+        - database/
+
+    excludePaths:
+        - tests/
+        - bootstrap/cache/*
+        - storage/*
+
+    level: 10
+
+    treatPhpDocTypesAsCertain: false
+
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
+    checkExplicitMixed: true
+    checkUninitializedProperties: true
+
+    reportUnmatchedIgnoredErrors: true
+
+    disallowedFunctionCalls:
+        -
+            function:
+                - 'ini_set()'
+            message: 'Changing PHP settings at runtime is disallowed. Ask DevOps for help.'
+        -
+            function:
+                - 'set_time_limit()'
+            message: 'Changing execution time is not allowed.'
+        -
+            function:
+                - 'dd()'
+                - 'ddd()'
+                - 'dump()'
+            message: 'Use logging instead of dump/debug functions.'
+
+    disallowedMethodCalls:
+        -
+            method:
+                - '*::dd()'
+                - '*::dump()'
+            message: 'Use logging instead of dump/debug methods.'
