@@ -12,13 +12,15 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
+        "larastan/larastan": "^3.4",
         "laravel/pail": "^1.2.3",
         "laravel/pint": "^1.22.1",
         "laravel/sail": "^1.43.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8",
         "phpunit/phpunit": "^11.5.22",
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "spaze/phpstan-disallowed-calls": "^4.5"
     },
     "autoload": {
         "psr-4": {
