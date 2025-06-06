@@ -21,7 +21,8 @@
         "assign_null_coalescing_to_coalesce_equal": true,
         "protected_to_private": true,
         "no_superfluous_elseif": true,
-        "no_useless_else": true
+        "no_useless_else": true,
+        "trailing_comma_in_multiline": true
     },
     "exclude": [
         "vendor",
