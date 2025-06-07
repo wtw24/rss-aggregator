@@ -28,7 +28,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -60,7 +63,11 @@
             "@php artisan test"
         ],
         "stan": "@php vendor/bin/phpstan analyse --memory-limit=3g",
-        "pint": "@php vendor/bin/pint"
+        "pint": "@php vendor/bin/pint",
+        "lint": [
+            "@php vendor/bin/pint --dirty",
+            "@php vendor/bin/phpstan analyse --memory-limit=3g"
+        ]
     },
     "extra": {
         "laravel": {
