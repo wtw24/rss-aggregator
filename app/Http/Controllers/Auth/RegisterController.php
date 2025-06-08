@@ -26,7 +26,7 @@ final readonly class RegisterController
         );
 
         return new MessageResponse(
-            message: 'User will be created in the background.',
+            message: 'A confirmation link has been sent to your email address. Please check your inbox to complete your registration.',
             status: Response::HTTP_ACCEPTED,
         );
     }
