@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\NullHandler;
+use Monolog\Handler\SocketHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
@@ -129,6 +131,15 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'socket' => [
+            'driver' => 'monolog',
+            'level' => env('LOG_LEVEL', 'debug'),
+            'handler' => SocketHandler::class,
+            'formatter' => JsonFormatter::class,
+            'handler_with' => [
+                'connectionString' => env('LOG_SOCKET_URL', '127.0.0.1:9913'),
+            ],
+        ],
     ],
 
 ];
