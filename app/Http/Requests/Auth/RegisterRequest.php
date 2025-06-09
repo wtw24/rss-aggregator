@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use App\Http\Payloads\CreateUserPayload;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Illuminate\Validation\Rules\Password;
 
 final class RegisterRequest extends FormRequest
 {
-    /** @return array<string, ValidationRule|array<mixed>|string> */
+    /** @return array<string, ValidationRule|list<mixed>|string> */
     public function rules(): array
     {
         return [

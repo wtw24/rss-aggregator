@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Responses\V1\MessageResponse;
 use App\Jobs\Auth\CreateNewUserJob;
 use Illuminate\Contracts\Bus\Dispatcher;
