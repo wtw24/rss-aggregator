@@ -1,0 +1,168 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "RSS Aggregator API",
+        "description": "API documentation for the RSS Aggregator project",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Register a new user",
+                "operationId": "auth.register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful registration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "A confirmation link has been sent to your email address. Please check your inbox to complete your registration."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterRequest": {
+                "required": [
+                    "name",
+                    "email",
+                    "password",
+                    "password_confirmation"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "description": "Password must be at least 8 characters long and contain mixed case letters, numbers, and symbols.",
+                        "type": "string",
+                        "format": "password",
+                        "example": "P@ssw0rd123!"
+                    },
+                    "password_confirmation": {
+                        "description": "Confirmation for the password.",
+                        "type": "string",
+                        "format": "password",
+                        "example": "P@ssw0rd123!"
+                    }
+                },
+                "type": "object"
+            },
+            "ApiError": {
+                "title": "API Error",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Resource not found."
+                    },
+                    "detail": {
+                        "type": "string",
+                        "example": "The resource you are looking for does not exist."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "http://localhost/api/v1/some/resource"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "HTTP-404"
+                    },
+                    "link": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationErrorResponse": {
+                "title": "Validation Error Response",
+                "description": "Standard validation error response format.",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "The given data was invalid."
+                    },
+                    "errors": {
+                        "description": "An object containing validation errors for each field.",
+                        "type": "object",
+                        "example": {
+                            "email": [
+                                "The email has already been taken."
+                            ],
+                            "password": [
+                                "The password confirmation does not match."
+                            ]
+                        },
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authorization",
+            "description": "Authorization"
+        }
+    ]
+}

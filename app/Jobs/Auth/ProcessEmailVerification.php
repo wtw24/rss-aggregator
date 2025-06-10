@@ -11,12 +11,12 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
-final readonly class ProcessEmailVerification implements ShouldQueue
+final class ProcessEmailVerification implements ShouldQueue
 {
     use Queueable;
 
     public function __construct(
-        private User $user
+        private readonly User $user
     ) {}
 
     public function handle(): void
