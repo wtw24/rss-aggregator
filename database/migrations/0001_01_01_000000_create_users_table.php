@@ -14,7 +14,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
 
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->index();
             $table->string('password');
             $table->rememberToken();
 

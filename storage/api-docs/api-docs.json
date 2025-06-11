@@ -12,6 +12,7 @@
                     "Authorization"
                 ],
                 "summary": "Resending the Verification Email",
+                "description": "Resends the email verification notification",
                 "operationId": "auth.verification-notification",
                 "responses": {
                     "200": {
@@ -122,12 +123,51 @@
                 }
             }
         },
+        "/forgot-password": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Forgot Password",
+                "description": "Sends password reset token to user email.",
+                "operationId": "auth.forgot.password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PasswordResetRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset token sent!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "If an account matching your email exists, you will receive instructions to reset your password shortly."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "tags": [
                     "Authorization"
                 ],
                 "summary": "Register a new user and get an API token",
+                "description": "Registers a new user and returns access token",
                 "operationId": "auth.register",
                 "requestBody": {
                     "required": true,
@@ -193,6 +233,20 @@
                         "type": "string",
                         "format": "password",
                         "example": "P@ssw0rd123!"
+                    }
+                },
+                "type": "object"
+            },
+            "PasswordResetRequest": {
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "user@example.com"
                     }
                 },
                 "type": "object"

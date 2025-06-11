@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class LoginController
 {
-    /**
-     * @throws ValidationException
-     */
+    /** @throws ValidationException */
     #[OA\Post(
         path: '/login',
         operationId: 'auth.login',
@@ -71,6 +69,7 @@ final class LoginController
             data: [
                 'token' => $token->plainTextToken,
             ],
+            status: Response::HTTP_OK,
         );
     }
 }
