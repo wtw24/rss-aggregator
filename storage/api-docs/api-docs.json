@@ -6,33 +6,33 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/register": {
+        "/email/verification-notification": {
             "post": {
                 "tags": [
                     "Authorization"
                 ],
-                "summary": "Register a new user",
-                "operationId": "auth.register",
+                "summary": "Resending the Verification Email",
+                "operationId": "auth.verification-notification",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/RegisterRequest"
+                                "$ref": "#/components/schemas/EmailVerificationNotificationRequest"
                             }
                         }
                     }
                 },
                 "responses": {
                     "202": {
-                        "description": "Successful registration",
+                        "description": "Verification link sent!",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "A confirmation link has been sent to your email address. Please check your inbox to complete your registration."
+                                            "example": "If the account exists and is not verified, a confirmation email has been sent."
                                         }
                                     },
                                     "type": "object"
@@ -62,10 +62,75 @@
                     }
                 }
             }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Register a new user and get an API token",
+                "operationId": "auth.register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful registration. Returns user token.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your account has been created. A confirmation link has been sent to your email address."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|aBcDeFgHiJkLmNoPqRsTuVwXyZ1234567890"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "EmailVerificationNotificationRequest": {
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "user@example.com"
+                    }
+                },
+                "type": "object"
+            },
             "RegisterRequest": {
                 "required": [
                     "name",
