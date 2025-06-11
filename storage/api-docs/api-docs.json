@@ -51,13 +51,73 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ApiError"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "429": {
                         "description": "Too Many Requests"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Login user",
+                "description": "Authenticates user and returns access token",
+                "operationId": "auth.login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "1|sometokenvalue..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -116,6 +176,27 @@
     },
     "components": {
         "schemas": {
+            "LoginRequest": {
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "description": "Password must be at least 8 characters long and contain mixed case letters, numbers, and symbols.",
+                        "type": "string",
+                        "format": "password",
+                        "example": "P@ssw0rd123!"
+                    }
+                },
+                "type": "object"
+            },
             "RegisterRequest": {
                 "required": [
                     "name",

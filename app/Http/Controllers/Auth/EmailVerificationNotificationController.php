@@ -16,6 +16,7 @@ final readonly class EmailVerificationNotificationController
     #[OA\Post(
         path: '/email/verification-notification',
         operationId: 'auth.verification-notification',
+        description: 'Resends the email verification notification',
         summary: 'Resending the Verification Email',
         tags: ['Authorization'],
         responses: [

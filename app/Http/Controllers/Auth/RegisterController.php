@@ -17,6 +17,7 @@ final readonly class RegisterController
     #[OA\Post(
         path: '/register',
         operationId: 'auth.register',
+        description: 'Registers a new user and returns access token',
         summary: 'Register a new user and get an API token',
         requestBody: new OA\RequestBody(
             required: true,
