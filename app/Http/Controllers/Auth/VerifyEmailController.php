@@ -5,34 +5,27 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\EmailVerificationRequest;
-use App\Jobs\Auth\ProcessEmailVerification;
-use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\RedirectResponse;
 
 final readonly class VerifyEmailController
 {
-    public function __construct(
-        private Dispatcher $bus
-    ) {}
-
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
         $user = $request->getVerifiedUser();
 
         if ($user->hasVerifiedEmail()) {
             return redirect()->to(
-                path: '/login?verified=already'
+                path: '/email/verify?verified=already'
             );
         }
 
-        $this->bus->dispatch(
-            command: new ProcessEmailVerification(
-                user: $user,
-            ),
-        );
+        $user->markEmailAsVerified();
+
+        event(new Verified($user));
 
         return redirect()->to(
-            path: '/login?verified=success'
+            path: '/email/verify?verified=success'
         );
     }
 }

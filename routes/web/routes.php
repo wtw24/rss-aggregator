@@ -2,16 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Auth\LoginViewController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\VerificationNoticeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => view('welcome'));
 
-Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['signed', 'throttle:verify-email'])
-    ->name('verification.verify');
-
-Route::get('/login', LoginViewController::class)
+Route::get('/email/verify', VerificationNoticeController::class)
     ->middleware('guest')
-    ->name('login');
+    ->name('verification.notice');

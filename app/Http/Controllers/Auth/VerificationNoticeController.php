@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 
-final class LoginViewController
+final class VerificationNoticeController
 {
     public function __invoke(Request $request): View
     {
