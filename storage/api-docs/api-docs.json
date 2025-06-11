@@ -13,18 +13,8 @@
                 ],
                 "summary": "Resending the Verification Email",
                 "operationId": "auth.verification-notification",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/EmailVerificationNotificationRequest"
-                            }
-                        }
-                    }
-                },
                 "responses": {
-                    "202": {
+                    "200": {
                         "description": "Verification link sent!",
                         "content": {
                             "application/json": {
@@ -32,7 +22,7 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "If the account exists and is not verified, a confirmation email has been sent."
+                                            "example": "A new verification link has been sent to your email address."
                                         }
                                     },
                                     "type": "object"
@@ -41,11 +31,17 @@
                         }
                     },
                     "422": {
-                        "description": "Validation error",
+                        "description": "Email already verified.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Email already verified."
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -59,6 +55,9 @@
                                 }
                             }
                         }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
                     }
                 }
             }
@@ -117,20 +116,6 @@
     },
     "components": {
         "schemas": {
-            "EmailVerificationNotificationRequest": {
-                "required": [
-                    "email"
-                ],
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "format": "email",
-                        "maxLength": 255,
-                        "example": "user@example.com"
-                    }
-                },
-                "type": "object"
-            },
             "RegisterRequest": {
                 "required": [
                     "name",

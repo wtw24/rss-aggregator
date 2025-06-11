@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Payloads;
+namespace App\Http\Payloads\Auth;
 
 final readonly class CreateUserPayload
 {
