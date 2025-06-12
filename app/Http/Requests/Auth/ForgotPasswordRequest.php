@@ -8,13 +8,13 @@ use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(
-    schema: 'PasswordResetRequest',
+    schema: 'ForgotPasswordRequest',
     required: ['email'],
     properties: [
         new OAT\Property(property: 'email', type: 'string', format: 'email', maxLength: 255, example: 'user@example.com'),
     ]
 )]
-final class PasswordResetRequest extends FormRequest
+final class ForgotPasswordRequest extends FormRequest
 {
     /** @return array<string, list<string>> */
     public function rules(): array

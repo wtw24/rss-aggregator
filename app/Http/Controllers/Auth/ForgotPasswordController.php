@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\PasswordResetRequest;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Password;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response;
 
-final class PasswordResetController
+final class ForgotPasswordController
 {
     #[OA\Post(
         path: '/forgot-password',
@@ -19,7 +19,7 @@ final class PasswordResetController
         summary: 'Forgot Password',
         requestBody: new OA\RequestBody(
             required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/PasswordResetRequest')
+            content: new OA\JsonContent(ref: '#/components/schemas/ForgotPasswordRequest')
         ),
         tags: ['Authorization'],
         responses: [
@@ -38,7 +38,7 @@ final class PasswordResetController
             ),
         ]
     )]
-    public function __invoke(PasswordResetRequest $request): JsonResponse
+    public function __invoke(ForgotPasswordRequest $request): JsonResponse
     {
         Password::sendResetLink($request->only('email'));
 
