@@ -69,6 +69,44 @@
                 }
             }
         },
+        "/forgot-password": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Forgot Password",
+                "description": "Sends password reset token to user email.",
+                "operationId": "auth.forgot.password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ForgotPasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset token sent!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "If an account matching your email exists, you will receive instructions to reset your password shortly."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "tags": [
@@ -113,44 +151,6 @@
                                         "message": {
                                             "type": "string",
                                             "example": "User not found."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/forgot-password": {
-            "post": {
-                "tags": [
-                    "Authorization"
-                ],
-                "summary": "Forgot Password",
-                "description": "Sends password reset token to user email.",
-                "operationId": "auth.forgot.password",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PasswordResetRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Password reset token sent!",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "If an account matching your email exists, you will receive instructions to reset your password shortly."
                                         }
                                     },
                                     "type": "object"
@@ -212,10 +212,72 @@
                     }
                 }
             }
+        },
+        "/reset-password": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Reset password",
+                "description": "Reset password for user.",
+                "operationId": "auth.reset.password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ResetPasswordRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Password reset successful.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your password has been reset."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "ForgotPasswordRequest": {
+                "required": [
+                    "email"
+                ],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "user@example.com"
+                    }
+                },
+                "type": "object"
+            },
             "LoginRequest": {
                 "required": [
                     "email",
@@ -237,20 +299,6 @@
                 },
                 "type": "object"
             },
-            "PasswordResetRequest": {
-                "required": [
-                    "email"
-                ],
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "format": "email",
-                        "maxLength": 255,
-                        "example": "user@example.com"
-                    }
-                },
-                "type": "object"
-            },
             "RegisterRequest": {
                 "required": [
                     "name",
@@ -263,6 +311,40 @@
                         "type": "string",
                         "maxLength": 255,
                         "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "maxLength": 255,
+                        "example": "user@example.com"
+                    },
+                    "password": {
+                        "description": "Password must be at least 8 characters long and contain mixed case letters, numbers, and symbols.",
+                        "type": "string",
+                        "format": "password",
+                        "example": "P@ssw0rd123!"
+                    },
+                    "password_confirmation": {
+                        "description": "Confirmation for the password.",
+                        "type": "string",
+                        "format": "password",
+                        "example": "P@ssw0rd123!"
+                    }
+                },
+                "type": "object"
+            },
+            "ResetPasswordRequest": {
+                "required": [
+                    "token",
+                    "email",
+                    "password",
+                    "password_confirmation"
+                ],
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "sometokenvalue..."
                     },
                     "email": {
                         "type": "string",

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Notifications\Auth\QueuedVerifyEmail;
 use App\Notifications\Auth\ResetPasswordNotification;
 use Carbon\CarbonInterface;
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,7 @@ final class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
 
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory;
 
     use HasUlids;
