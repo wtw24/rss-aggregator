@@ -28,4 +28,11 @@ final class FeedFactory extends Factory
             'checked_at' => $this->faker->dateTimeThisMonth(),
         ];
     }
+
+    public function unpublished(): FeedFactory
+    {
+        return $this->state(static fn (array $attributes) => [
+            'published_at' => null,
+        ]);
+    }
 }
