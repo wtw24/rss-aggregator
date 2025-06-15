@@ -21,6 +21,7 @@ final readonly class FeedParserService
 {
     public function __construct(
         private LoggerInterface $logger,
+        private Reader $reader,
     ) {}
 
     /**
@@ -52,7 +53,7 @@ final readonly class FeedParserService
     {
         try {
             /** @var FeedChannel<AtomEntry|RssEntry> $channel */
-            $channel = Reader::import($feed->url);
+            $channel = $this->reader->import($feed->url);
 
             return $channel;
         } catch (FeedReaderException $e) {

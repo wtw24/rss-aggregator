@@ -6,7 +6,7 @@ namespace Tests\Feature\App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Auth\RegisterController;
 use App\Models\User;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\Auth\QueuedVerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ final class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testNewUsersCanRegister(): void
+    public function test_new_users_can_register(): void
     {
         Notification::fake();
 
@@ -37,13 +37,13 @@ final class RegistrationTest extends TestCase
         );
 
         $response
-            ->assertStatus(Response::HTTP_ACCEPTED)
+            ->assertStatus(Response::HTTP_CREATED)
             ->assertValid();
 
         $user = User::query()->where('email', $userData['email'])->first();
         $this->assertNotNull($user);
         $this->assertNull($user->email_verified_at);
 
-        Notification::assertSentTo($user, VerifyEmail::class);
+        Notification::assertSentTo($user, QueuedVerifyEmail::class);
     }
 }

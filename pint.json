@@ -7,9 +7,6 @@
         "declare_strict_types": true,
         "numeric_literal_separator": true,
         "fully_qualified_strict_types": true,
-        "php_unit_method_casing": {
-            "case": "camel_case"
-        },
         "strict_comparison": true,
         "final_class": true,
         "void_return": true,
