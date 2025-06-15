@@ -13,6 +13,7 @@ return new class extends Migration
         Schema::create('articles', static function (Blueprint $table): void {
             $table->ulid('id')->primary();
 
+            $table->string('guid')->index();
             $table->string('title');
             $table->text('summary');
             $table->string('link');

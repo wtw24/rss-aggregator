@@ -18,6 +18,7 @@ final class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
+            'guid' => $this->faker->uuid(),
             'title' => $this->faker->sentence(
                 nbWords: 6,
             ),

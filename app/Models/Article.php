@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $id
+ * @property string $guid
  * @property string $title
  * @property string $summary
  * @property string $link
@@ -31,6 +32,7 @@ final class Article extends Model
 
     /** @var list<string> */
     protected $fillable = [
+        'guid',
         'title',
         'summary',
         'link',
