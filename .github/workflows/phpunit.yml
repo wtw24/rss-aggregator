@@ -1,0 +1,77 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run PHPUnit
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: db_usr
+          POSTGRES_PASSWORD: db_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready --username=${{ env.POSTGRES_USER }} --dbname=${{ env.POSTGRES_DB }}"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      matrix:
+        suite: [ Unit, Feature ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP with extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, pdo, pdo_pgsql
+          coverage: none
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Prepare Laravel environment
+        run: |
+          cp .env.testing.example .env
+          php artisan key:generate
+
+      - name: Wait for PostgreSQL
+        env:
+          PGPASSWORD: db_pass
+        run: |
+          until pg_isready -h 127.0.0.1 -p 5432 -U db_usr -q; do
+            echo "Waiting for database..."
+            sleep 2
+          done
+
+      - name: Run PHPUnit ${{ matrix.suite }} Tests
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: test_db
+          DB_USERNAME: db_usr
+          DB_PASSWORD: db_pass
+        run: vendor/bin/phpunit --testdox --testdox-summary --testsuite=${{ matrix.suite }}
