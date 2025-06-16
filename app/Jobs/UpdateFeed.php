@@ -14,6 +14,7 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 final class UpdateFeed implements ShouldBeUnique, ShouldQueue
 {
@@ -67,6 +68,7 @@ final class UpdateFeed implements ShouldBeUnique, ShouldQueue
             $now = Carbon::now();
 
             $articlesToInsert = $articles->map(static fn (ArticleData $articleData): array => [
+                'id' => (string) Str::ulid(),
                 'guid' => $articleData->guid,
                 'title' => $articleData->title,
                 'summary' => $articleData->summary,

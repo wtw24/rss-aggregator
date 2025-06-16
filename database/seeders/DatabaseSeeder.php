@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Enums\FeedType;
 use App\Models\Article;
 use App\Models\Feed;
 use App\Models\User;
@@ -17,21 +16,32 @@ final class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
+        $unverified = User::factory()->unverified()->create([
+            'name' => 'Unverified User',
+            'email' => 'unverified@app.loc',
+            'password' => 'P@ssw0rd123!',
+        ]);
+
         $user = User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@app.loc',
+            'name' => 'Verified User',
+            'email' => 'verified@app.loc',
+            'password' => 'P@ssw0rd123!',
         ]);
 
         $feed = Feed::factory()->for($user)->create([
             'name' => 'Laravel News',
-            'url' => 'https://laravel-news.com/feed',
-            'type' => FeedType::RSS,
+            'url' => 'https://feed.laravel-news.com',
         ]);
 
-        User::factory(10)
-            ->has(Feed::factory()->count(random_int(1, 5)))
-            ->create();
+        $feed = Feed::factory()->for($user)->create([
+            'name' => 'Selling Partner API',
+            'url' => 'https://developer-docs.amazon.com/sp-api/changelog.rss',
+        ]);
 
-        Article::factory(20)->for($feed)->create();
+        // User::factory(10)
+        //    ->has(Feed::factory()->count(random_int(1, 5)))
+        //    ->create();
+
+        // Article::factory(20)->for($feed)->create();
     }
 }
