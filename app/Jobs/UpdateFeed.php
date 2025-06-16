@@ -70,8 +70,8 @@ final class UpdateFeed implements ShouldBeUnique, ShouldQueue
             $articlesToInsert = $articles->map(static fn (ArticleData $articleData): array => [
                 'id' => (string) Str::ulid(),
                 'guid' => $articleData->guid,
-                'title' => $articleData->title,
-                'summary' => $articleData->summary,
+                'title' => trim($articleData->title),
+                'summary' => trim($articleData->summary),
                 'link' => $articleData->link,
                 'published_at' => $articleData->published_at,
                 'feed_id' => $feed->id,

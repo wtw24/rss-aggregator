@@ -13,7 +13,7 @@ final class FeedServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->app->bind(Reader::class, function ($app) {
+        $this->app->bind(Reader::class, static function (): Reader {
             $guzzleClient = new GuzzleClient;
 
             $feedHttpClient = new GuzzleFeedClient($guzzleClient);
