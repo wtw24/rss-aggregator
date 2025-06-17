@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\FeedType;
 use App\Models\Feed;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,7 +22,6 @@ final class FeedFactory extends Factory
                 nbWords: 4,
             ),
             'url' => $this->faker->unique()->url(),
-            'type' => $this->faker->randomElement(FeedType::cases()),
             'user_id' => User::factory(),
             'checked_at' => $this->faker->dateTimeThisMonth(),
         ];

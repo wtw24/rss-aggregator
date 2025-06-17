@@ -13,9 +13,8 @@ return new class extends Migration
         Schema::create('feeds', static function (Blueprint $table): void {
             $table->ulid('id')->primary();
 
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('url');
-            $table->string('type');
 
             $table
                 ->foreignUlid('user_id')

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Auth;
 
-use App\Http\Payloads\Auth\CreateUserPayload;
+use App\Http\Payloads\Auth\UserPayload;
 use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -45,9 +45,9 @@ final class RegisterRequest extends FormRequest
         ];
     }
 
-    public function payload(): CreateUserPayload
+    public function payload(): UserPayload
     {
-        return new CreateUserPayload(
+        return new UserPayload(
             $this->string('name')->toString(),
             $this->string('email')->toString(),
             $this->string('password')->toString(),

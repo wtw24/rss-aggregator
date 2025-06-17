@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Enums\FeedType;
 use Carbon\CarbonInterface;
 use Database\Factories\FeedFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -17,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $id
  * @property string $name
  * @property string $url
- * @property FeedType $type
  * @property string $user_id
  * @property null|CarbonInterface $checked_at
  * @property null|CarbonInterface $created_at
@@ -35,7 +33,6 @@ final class Feed extends Model
     protected $fillable = [
         'name',
         'url',
-        'type',
         'user_id',
         'checked_at',
     ];
@@ -60,7 +57,6 @@ final class Feed extends Model
 
     /** @return array<string,string|class-string> */
     protected $casts = [
-        'type' => FeedType::class,
         'checked_at' => 'datetime',
     ];
 }

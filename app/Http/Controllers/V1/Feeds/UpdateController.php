@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\V1\Feeds;
 
-use App\Http\Responses\V1\MessageResponse;
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\V1\FeedRequest;
+use App\Http\Resources\V1\FeedResource;
+use App\Models\Feed;
 
 final class UpdateController
 {
-    public function __invoke(Request $request): Responsable
+    public function __invoke(FeedRequest $request, Feed $feed): FeedResource
     {
-        return new MessageResponse(
-            message: 'todo',
-            status: Response::HTTP_ACCEPTED,
+        $feed->update(
+            $request->payload()->toArray(),
         );
+
+        return new FeedResource($feed);
     }
 }

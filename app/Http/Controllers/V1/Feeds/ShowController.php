@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\V1\Feeds;
 
-use App\Http\Responses\V1\MessageResponse;
-use Illuminate\Contracts\Support\Responsable;
+use App\Http\Resources\V1\FeedResource;
+use App\Models\Feed;
+use App\Traits\QueryBuilderOptions;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 final class ShowController
 {
-    public function __invoke(Request $request): Responsable
+    use QueryBuilderOptions;
+
+    public function __invoke(Request $request, string $id): JsonResource
     {
-        return new MessageResponse(
-            message: 'todo',
-            status: Response::HTTP_ACCEPTED,
-        );
+        $feed = QueryBuilder::for(Feed::class)
+            ->allowedIncludes($this->includes())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        return new FeedResource($feed);
     }
 }

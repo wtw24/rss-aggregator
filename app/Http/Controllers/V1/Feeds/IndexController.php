@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\V1\Feeds;
 
-use App\Http\Responses\V1\MessageResponse;
-use Illuminate\Contracts\Support\Responsable;
+use App\Http\Resources\V1\FeedResource;
+use App\Models\Feed;
+use App\Traits\QueryBuilderOptions;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 final class IndexController
 {
-    public function __invoke(Request $request): Responsable
+    use QueryBuilderOptions;
+
+    public function __invoke(Request $request): ResourceCollection
     {
-        return new MessageResponse(
-            message: 'todo',
-            status: Response::HTTP_ACCEPTED,
-        );
+        $paginator = QueryBuilder::for(Feed::class)
+            ->allowedFilters($this->filters())
+            ->allowedIncludes($this->includes())
+            ->allowedSorts($this->sorts())
+            ->simplePaginate();
+
+        return FeedResource::collection($paginator);
     }
 }

@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\V1\Feeds;
 
-use App\Http\Responses\V1\MessageResponse;
-use Illuminate\Contracts\Support\Responsable;
+use App\Models\Feed;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Response;
 
 final class DeleteController
 {
-    public function __invoke(Request $request): Responsable
+    public function __invoke(Request $request, Feed $feed): Response
     {
-        return new MessageResponse(
-            message: 'todo',
-            status: Response::HTTP_ACCEPTED,
-        );
+        $feed->delete();
+
+        return response()->noContent();
     }
 }
