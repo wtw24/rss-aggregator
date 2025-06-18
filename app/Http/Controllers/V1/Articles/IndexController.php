@@ -16,10 +16,18 @@ final class IndexController
 {
     use QueryBuilderOptions;
 
+    /**
+     * @return list<string>
+     */
+    public function sorts(): array
+    {
+        return ['title'];
+    }
+
     /** @return list<string> */
     public function filters(): array
     {
-        return ['feed_id'];
+        return ['title'];
     }
 
     /** @return list<string> */
