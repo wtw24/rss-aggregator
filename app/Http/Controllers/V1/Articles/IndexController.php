@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\V1\Articles;
 
 use App\Http\Resources\V1\ArticleResource;
-use App\Models\Article;
+use App\Models\User;
 use App\Traits\QueryBuilderOptions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -29,7 +29,10 @@ final class IndexController
 
     public function __invoke(Request $request): ResourceCollection
     {
-        $paginator = QueryBuilder::for(Article::class)
+        /** @var User $user */
+        $user = $request->user();
+
+        $paginator = QueryBuilder::for($user->articles())
             ->allowedFilters($this->filters())
             ->allowedIncludes($this->includes())
             ->allowedSorts($this->sorts())
