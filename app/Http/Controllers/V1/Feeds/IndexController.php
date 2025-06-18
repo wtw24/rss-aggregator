@@ -7,6 +7,7 @@ namespace App\Http\Controllers\V1\Feeds;
 use App\Http\Resources\V1\FeedResource;
 use App\Models\Feed;
 use App\Traits\QueryBuilderOptions;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -15,6 +16,7 @@ final class IndexController
 {
     use QueryBuilderOptions;
 
+    #[Group('Feeds')]
     public function __invoke(Request $request): ResourceCollection
     {
         $paginator = QueryBuilder::for(Feed::class)

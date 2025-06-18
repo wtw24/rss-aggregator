@@ -10,22 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(
-    schema: 'LoginRequest',
-    required: ['email', 'password'],
-    properties: [
-        new OAT\Property(property: 'email', type: 'string', format: 'email', maxLength: 255, example: 'user@example.com'),
-        new OAT\Property(
-            property: 'password',
-            description: 'Password must be at least 8 characters long and contain mixed case letters, numbers, and symbols.',
-            type: 'string',
-            format: 'password',
-            example: 'P@ssw0rd123!',
-        ),
-    ]
-)]
 final class LoginRequest extends FormRequest
 {
     public function authorize(): bool

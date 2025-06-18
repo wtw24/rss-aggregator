@@ -7,6 +7,7 @@ namespace App\Http\Controllers\V1\Feeds;
 use App\Http\Resources\V1\FeedResource;
 use App\Models\Feed;
 use App\Traits\QueryBuilderOptions;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ final class ShowController
     /**
      * @throws AuthorizationException
      */
+    #[Group('Feeds')]
     public function __invoke(Request $request, string $id): JsonResource
     {
         $feed = QueryBuilder::for(Feed::class)

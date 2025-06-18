@@ -7,6 +7,7 @@ namespace App\Http\Controllers\V1\Articles;
 use App\Http\Resources\V1\ArticleResource;
 use App\Models\User;
 use App\Traits\QueryBuilderOptions;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -27,6 +28,7 @@ final class IndexController
         return ['feed'];
     }
 
+    #[Group('Articles')]
     public function __invoke(Request $request): ResourceCollection
     {
         /** @var User $user */

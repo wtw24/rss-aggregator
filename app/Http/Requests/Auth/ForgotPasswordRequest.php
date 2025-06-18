@@ -5,15 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-use OpenApi\Attributes as OAT;
 
-#[OAT\Schema(
-    schema: 'ForgotPasswordRequest',
-    required: ['email'],
-    properties: [
-        new OAT\Property(property: 'email', type: 'string', format: 'email', maxLength: 255, example: 'user@example.com'),
-    ]
-)]
 final class ForgotPasswordRequest extends FormRequest
 {
     /** @return array<string, list<string>> */

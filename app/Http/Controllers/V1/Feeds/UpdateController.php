@@ -7,6 +7,7 @@ namespace App\Http\Controllers\V1\Feeds;
 use App\Http\Requests\V1\FeedRequest;
 use App\Http\Resources\V1\FeedResource;
 use App\Models\Feed;
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -17,6 +18,7 @@ final class UpdateController
     /**
      * @throws AuthorizationException
      */
+    #[Group('Feeds')]
     public function __invoke(FeedRequest $request, Feed $feed): FeedResource
     {
         $feed->update(

@@ -13,43 +13,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ResetPasswordController
 {
-    /** @throws ValidationException */
-    #[OA\Post(
-        path: '/reset-password',
-        operationId: 'auth.reset.password',
-        description: 'Reset password for user.',
-        summary: 'Reset password',
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(ref: '#/components/schemas/ResetPasswordRequest')
-        ),
-        tags: ['Authorization'],
-        responses: [
-            new OA\Response(
-                response: Response::HTTP_CREATED,
-                description: 'Password reset successful.',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            property: 'message',
-                            type: 'string',
-                            example: 'Your password has been reset.'
-                        ),
-                    ]
-                )
-            ),
-            new OA\Response(
-                response: 422,
-                description: 'Validation error',
-                content: new OA\JsonContent(ref: '#/components/schemas/ValidationErrorResponse')
-            ),
-        ]
-    )]
     public function __invoke(ResetPasswordRequest $request): JsonResponse
     {
         /** @var string $status */

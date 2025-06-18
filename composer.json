@@ -7,7 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
-        "darkaonline/l5-swagger": "^9.0",
+        "dedoc/scramble": "^0.12.23",
         "laminas/laminas-feed": "^2.23",
         "laravel/framework": "^12.17",
         "laravel/sanctum": "^4.0",
