@@ -21,7 +21,11 @@ final class IndexController
             ->allowedFilters($this->filters())
             ->allowedIncludes($this->includes())
             ->allowedSorts($this->sorts())
-            ->simplePaginate();
+            ->where(
+                column: 'user_id',
+                operator: '=',
+                value: auth()->id()
+            )->simplePaginate();
 
         return FeedResource::collection($paginator);
     }

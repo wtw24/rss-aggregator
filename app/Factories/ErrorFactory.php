@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Throwable;
 
@@ -28,11 +27,6 @@ final class ErrorFactory
                     'message' => $exception->getMessage(),
                     'errors' => $exception->errors(),
                 ],
-                status: Status::HTTP_UNPROCESSABLE_ENTITY->value,
-            ),
-
-            UnprocessableEntityHttpException::class => new JsonResponse(
-                data: $exception->getMessage(),
                 status: Status::HTTP_UNPROCESSABLE_ENTITY->value,
             ),
 
